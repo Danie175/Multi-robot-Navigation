@@ -1,0 +1,66 @@
+[0.063s] Invoking command in '/home/daniel/CustomMultibot-master/build/nav2_bringup': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake /home/daniel/CustomMultibot-master/src/nav2_bringup -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/daniel/CustomMultibot-master/install/nav2_bringup
+[0.975s] -- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.751s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[2.022s] -- Found nav2_common: 1.1.15 (/opt/ros/humble/share/nav2_common/cmake)
+[2.060s] -- Found navigation2: 1.1.15 (/opt/ros/humble/share/navigation2/cmake)
+[2.102s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[2.810s] -- Added test 'copyright' to check source files copyright and LICENSE
+[3.064s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.064s] -- Configured cppcheck include dirs: 
+[3.064s] -- Configured cppcheck exclude dirs and/or files: 
+[3.069s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.069s] -- Configured cpplint exclude dirs and/or files: 
+[3.070s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.071s] -- Added test 'lint_cmake' to check CMake code style
+[3.072s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.077s] -- Added test 'uncrustify' to check C / C++ code style
+[3.077s] -- Configured uncrustify additional arguments: 
+[3.077s] -- Added test 'xmllint' to check XML markup files
+[3.079s] -- Configuring done
+[3.203s] -- Generating done
+[3.204s] -- Build files have been written to: /home/daniel/CustomMultibot-master/build/nav2_bringup
+[3.251s] Invoked command in '/home/daniel/CustomMultibot-master/build/nav2_bringup' returned '0': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake /home/daniel/CustomMultibot-master/src/nav2_bringup -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/daniel/CustomMultibot-master/install/nav2_bringup
+[3.252s] Invoking command in '/home/daniel/CustomMultibot-master/build/nav2_bringup': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --build /home/daniel/CustomMultibot-master/build/nav2_bringup -- -j8 -l8
+[3.301s] Invoked command in '/home/daniel/CustomMultibot-master/build/nav2_bringup' returned '0': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --build /home/daniel/CustomMultibot-master/build/nav2_bringup -- -j8 -l8
+[3.324s] Invoking command in '/home/daniel/CustomMultibot-master/build/nav2_bringup': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --install /home/daniel/CustomMultibot-master/build/nav2_bringup
+[3.330s] -- Install configuration: "Release"
+[3.330s] -- Execute custom install script
+[3.330s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/bringup_launch.py
+[3.330s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/cloned_multi_tb3_simulation_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/localization_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/navigation_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/rviz_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/slam_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/tb3_simulation_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/unique_multi_tb3_simulation_launch.py
+[3.331s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/launch/warehouse_multibot_launch.py
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/maps/new_warehouse_save.pgm
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/maps/new_warehouse_save.yaml
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/maps/turtlebot3_world.pgm
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/maps/turtlebot3_world.yaml
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/rviz/nav2_default_view.rviz
+[3.332s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/rviz/nav2_namespaced_view.rviz
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/worlds/waffle.model
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/worlds/warehouse.world
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/worlds/world_only.model
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/params/nav2_multirobot_params_1.yaml
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/params/nav2_multirobot_params_2.yaml
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/params/nav2_multirobot_params_all.yaml
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/params/nav2_params.yaml
+[3.333s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/urdf/turtlebot3_waffle.urdf
+[3.516s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/ament_index/resource_index/package_run_dependencies/nav2_bringup
+[3.516s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/ament_index/resource_index/parent_prefix_path/nav2_bringup
+[3.516s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/environment/ament_prefix_path.sh
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/environment/ament_prefix_path.dsv
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/environment/path.sh
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/environment/path.dsv
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/local_setup.bash
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/local_setup.sh
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/local_setup.zsh
+[3.517s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/local_setup.dsv
+[3.517s] -- Symlinking: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/package.dsv
+[3.525s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/ament_index/resource_index/packages/nav2_bringup
+[3.525s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/cmake/nav2_bringupConfig.cmake
+[3.525s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/cmake/nav2_bringupConfig-version.cmake
+[3.525s] -- Up-to-date symlink: /home/daniel/CustomMultibot-master/install/nav2_bringup/share/nav2_bringup/package.xml
+[3.527s] Invoked command in '/home/daniel/CustomMultibot-master/build/nav2_bringup' returned '0': CMAKE_PREFIX_PATH=/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --install /home/daniel/CustomMultibot-master/build/nav2_bringup

@@ -1,0 +1,39 @@
+[2.709s] Invoking command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake /home/daniel/CustomMultibot-master/src/turtlebot3_simulations -DCMAKE_INSTALL_PREFIX=/home/daniel/CustomMultibot-master/install/turtlebot3_simulations
+[5.933s] -- The C compiler identification is GNU 11.4.0
+[8.211s] -- The CXX compiler identification is GNU 11.4.0
+[9.945s] -- Detecting C compiler ABI info
+[10.680s] -- Detecting C compiler ABI info - done
+[10.690s] -- Check for working C compiler: /usr/bin/cc - skipped
+[10.690s] -- Detecting C compile features
+[10.719s] -- Detecting C compile features - done
+[10.723s] -- Detecting CXX compiler ABI info
+[10.862s] -- Detecting CXX compiler ABI info - done
+[10.872s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[10.873s] -- Detecting CXX compile features
+[10.873s] -- Detecting CXX compile features - done
+[11.073s] -- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+[12.152s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[13.999s] -- Configuring done
+[14.002s] -- Generating done
+[14.003s] -- Build files have been written to: /home/daniel/CustomMultibot-master/build/turtlebot3_simulations
+[14.009s] Invoked command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations' returned '0': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake /home/daniel/CustomMultibot-master/src/turtlebot3_simulations -DCMAKE_INSTALL_PREFIX=/home/daniel/CustomMultibot-master/install/turtlebot3_simulations
+[14.009s] Invoking command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --build /home/daniel/CustomMultibot-master/build/turtlebot3_simulations -- -j8 -l8
+[14.050s] Invoked command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations' returned '0': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --build /home/daniel/CustomMultibot-master/build/turtlebot3_simulations -- -j8 -l8
+[14.072s] Invoking command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --install /home/daniel/CustomMultibot-master/build/turtlebot3_simulations
+[14.080s] -- Install configuration: ""
+[14.080s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/ament_index/resource_index/package_run_dependencies/turtlebot3_simulations
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/ament_index/resource_index/parent_prefix_path/turtlebot3_simulations
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/ament_prefix_path.sh
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/ament_prefix_path.dsv
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/path.sh
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/path.dsv
+[14.081s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.bash
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.sh
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.zsh
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.dsv
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/package.dsv
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/ament_index/resource_index/packages/turtlebot3_simulations
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/cmake/turtlebot3_simulationsConfig.cmake
+[14.082s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/cmake/turtlebot3_simulationsConfig-version.cmake
+[14.083s] -- Installing: /home/daniel/CustomMultibot-master/install/turtlebot3_simulations/share/turtlebot3_simulations/package.xml
+[14.085s] Invoked command in '/home/daniel/CustomMultibot-master/build/turtlebot3_simulations' returned '0': AMENT_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/daniel/CustomMultibot-master/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_simulations:/home/daniel/dan_ws/install/follow_waypoint:/opt/ros/humble:/home/daniel/robots_ws/install/turtlebot3_gazebo:/home/daniel/robots_ws/install/turtlebot3_fake_node:/home/daniel/robots_ws/install/multi_robot_rosbot:/home/daniel/robots_ws/install/articubot_one:/home/daniel/dan_ws/install/articubot_one /usr/bin/cmake --install /home/daniel/CustomMultibot-master/build/turtlebot3_simulations

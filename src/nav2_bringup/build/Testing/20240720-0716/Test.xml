@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20240720-0716-Experimental"
+	Name="daniel-legion-5"
+	Generator="ctest-3.22.1"
+	CompilerName="/usr/bin/c++"
+	CompilerVersion="11.4.0"
+	OSName="Linux"
+	Hostname="daniel-legion-5"
+	OSRelease="6.5.0-41-generic"
+	OSVersion="#41~22.04.2-Ubuntu SMP PREEMPT_DYNAMIC Mon Jun  3 11:32:55 UTC 2"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="165"
+	ProcessorCacheSize="8192"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="0"
+	TotalPhysicalMemory="7839"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="2500.01"
+	>
+	<Testing>
+		<StartDateTime>Jul 20 12:46 IST</StartDateTime>
+		<StartTestTime>1721459803</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jul 20 12:46 IST</EndDateTime>
+		<EndTestTime>1721459803</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>
