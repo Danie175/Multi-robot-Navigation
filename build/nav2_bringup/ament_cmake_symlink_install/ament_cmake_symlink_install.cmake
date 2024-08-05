@@ -23,7 +23,7 @@ function(ament_cmake_symlink_install_directory cmake_current_source_dir)
 
   # make destination absolute path and ensure that it exists
   if(NOT IS_ABSOLUTE "${ARG_DESTINATION}")
-    set(ARG_DESTINATION "/home/daniel/CustomMultibot-master/install/nav2_bringup/${ARG_DESTINATION}")
+    set(ARG_DESTINATION "/home/daniel/Multi-robot-Navigation/install/nav2_bringup/${ARG_DESTINATION}")
   endif()
   if(NOT EXISTS "${ARG_DESTINATION}")
     file(MAKE_DIRECTORY "${ARG_DESTINATION}")
@@ -123,7 +123,7 @@ function(ament_cmake_symlink_install_files cmake_current_source_dir)
 
   # make destination an absolute path and ensure that it exists
   if(NOT IS_ABSOLUTE "${ARG_DESTINATION}")
-    set(ARG_DESTINATION "/home/daniel/CustomMultibot-master/install/nav2_bringup/${ARG_DESTINATION}")
+    set(ARG_DESTINATION "/home/daniel/Multi-robot-Navigation/install/nav2_bringup/${ARG_DESTINATION}")
   endif()
   if(NOT EXISTS "${ARG_DESTINATION}")
     file(MAKE_DIRECTORY "${ARG_DESTINATION}")
@@ -181,7 +181,7 @@ function(ament_cmake_symlink_install_programs cmake_current_source_dir)
 
   # make destination an absolute path and ensure that it exists
   if(NOT IS_ABSOLUTE "${ARG_DESTINATION}")
-    set(ARG_DESTINATION "/home/daniel/CustomMultibot-master/install/nav2_bringup/${ARG_DESTINATION}")
+    set(ARG_DESTINATION "/home/daniel/Multi-robot-Navigation/install/nav2_bringup/${ARG_DESTINATION}")
   endif()
   if(NOT EXISTS "${ARG_DESTINATION}")
     file(MAKE_DIRECTORY "${ARG_DESTINATION}")
@@ -251,7 +251,7 @@ function(ament_cmake_symlink_install_targets)
 
     # make destination an absolute path and ensure that it exists
     if(NOT IS_ABSOLUTE "${destination}")
-      set(destination "/home/daniel/CustomMultibot-master/install/nav2_bringup/${destination}")
+      set(destination "/home/daniel/Multi-robot-Navigation/install/nav2_bringup/${destination}")
     endif()
     if(NOT EXISTS "${destination}")
       file(MAKE_DIRECTORY "${destination}")
@@ -311,61 +311,61 @@ message(STATUS "Execute custom install script")
 # begin of custom install code
 
 # install(DIRECTORY "launch" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "launch" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "launch" "DESTINATION" "share/nav2_bringup")
 
 # install(DIRECTORY "maps" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "maps" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "maps" "DESTINATION" "share/nav2_bringup")
 
 # install(DIRECTORY "rviz" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "rviz" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "rviz" "DESTINATION" "share/nav2_bringup")
 
 # install(DIRECTORY "worlds" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "worlds" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "worlds" "DESTINATION" "share/nav2_bringup")
 
 # install(DIRECTORY "params" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "params" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "params" "DESTINATION" "share/nav2_bringup")
 
 # install(DIRECTORY "urdf" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_directory("/home/daniel/CustomMultibot-master/src/nav2_bringup" DIRECTORY "urdf" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_directory("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" DIRECTORY "urdf" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/parent_prefix_path")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/parent_prefix_path")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/parent_prefix_path")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/parent_prefix_path")
 
 # install(FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh" "DESTINATION" "share/nav2_bringup/environment")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh" "DESTINATION" "share/nav2_bringup/environment")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh" "DESTINATION" "share/nav2_bringup/environment")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/ament_prefix_path.dsv" "DESTINATION" "share/nav2_bringup/environment")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/ament_prefix_path.dsv" "DESTINATION" "share/nav2_bringup/environment")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/ament_prefix_path.dsv" "DESTINATION" "share/nav2_bringup/environment")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/ament_prefix_path.dsv" "DESTINATION" "share/nav2_bringup/environment")
 
 # install(FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh" "DESTINATION" "share/nav2_bringup/environment")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh" "DESTINATION" "share/nav2_bringup/environment")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh" "DESTINATION" "share/nav2_bringup/environment")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/path.dsv" "DESTINATION" "share/nav2_bringup/environment")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/path.dsv" "DESTINATION" "share/nav2_bringup/environment")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/path.dsv" "DESTINATION" "share/nav2_bringup/environment")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/path.dsv" "DESTINATION" "share/nav2_bringup/environment")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.bash" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.bash" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.bash" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.bash" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.sh" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.sh" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.sh" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.sh" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.zsh" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.zsh" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.zsh" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.zsh" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.dsv" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.dsv" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.dsv" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.dsv" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/package.dsv" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_environment_hooks/package.dsv" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/package.dsv" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/package.dsv" "DESTINATION" "share/nav2_bringup")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/packages/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/packages")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/packages/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/packages")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/packages/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/packages")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_index/share/ament_index/resource_index/packages/nav2_bringup" "DESTINATION" "share/ament_index/resource_index/packages")
 
-# install(FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig.cmake" "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig-version.cmake" "DESTINATION" "share/nav2_bringup/cmake")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig.cmake" "/home/daniel/CustomMultibot-master/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig-version.cmake" "DESTINATION" "share/nav2_bringup/cmake")
+# install(FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig.cmake" "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig-version.cmake" "DESTINATION" "share/nav2_bringup/cmake")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig.cmake" "/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_core/nav2_bringupConfig-version.cmake" "DESTINATION" "share/nav2_bringup/cmake")
 
-# install(FILES "/home/daniel/CustomMultibot-master/src/nav2_bringup/package.xml" "DESTINATION" "share/nav2_bringup")
-ament_cmake_symlink_install_files("/home/daniel/CustomMultibot-master/src/nav2_bringup" FILES "/home/daniel/CustomMultibot-master/src/nav2_bringup/package.xml" "DESTINATION" "share/nav2_bringup")
+# install(FILES "/home/daniel/Multi-robot-Navigation/src/nav2_bringup/package.xml" "DESTINATION" "share/nav2_bringup")
+ament_cmake_symlink_install_files("/home/daniel/Multi-robot-Navigation/src/nav2_bringup" FILES "/home/daniel/Multi-robot-Navigation/src/nav2_bringup/package.xml" "DESTINATION" "share/nav2_bringup")

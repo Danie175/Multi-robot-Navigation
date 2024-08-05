@@ -1,1 +1,1 @@
-/home/daniel/CustomMultibot-master/src/nav2_bringup/launch/rviz_launch.py
+/home/daniel/Multi-robot-Navigation/src/nav2_bringup/launch/rviz_launch.py
