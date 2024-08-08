@@ -1,13 +1,12 @@
 import time
-from copy import deepcopy
+import json
+import threading
 from geometry_msgs.msg import PoseStamped
 import rclpy
-import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.executors import MultiThreadedExecutor
-import threading
 
 def parse_json(json_file):
     try:
@@ -17,33 +16,20 @@ def parse_json(json_file):
         machine_sequences = []
         ptime_sequences = []
         
-        new_machine_sequences = []
-        new_ptime_sequences = []
+        for amr in data.get('amr_list', []):
+            machine_sequences.append(amr.get('machine_sequence', []))
+            ptime_sequences.append(amr.get('ptime_sequence', []))
         
-        for amr in data['amr_list']:
-            machine_sequences.append(amr['machine_sequence'])
-            ptime_sequences.append(amr['ptime_sequence'])
-        
-        for machines, ptimes in zip(machine_sequences, ptime_sequences):
-            new_machines = []
-            new_ptimes = []
-            for machine, ptime in zip(machines, ptimes):
-                if ptime != 0:
-                    new_machines.append(machine)
-                    new_ptimes.append(ptime)
-            new_machine_sequences.append(new_machines)
-            new_ptime_sequences.append(new_ptimes)
-        
-        print(machine_sequences, ptime_sequences)
-        print(new_machine_sequences, new_ptime_sequences)
-        if len(new_machine_sequences) < 2 or len(new_ptime_sequences) < 2:
-            return None
-        amr_sequences = []
-        amr_ptimes = []
-        for i in range(len(new_machine_sequences)):
-            amr_sequences.append(new_machine_sequences[i])
-            amr_ptimes.append(new_ptime_sequences[i])
-        return amr_sequences, amr_ptimes
+        new_machine_sequences = [
+            [machine for machine, ptime in zip(machines, ptimes) if ptime != 0]
+            for machines, ptimes in zip(machine_sequences, ptime_sequences)
+        ]
+        new_ptime_sequences = [
+            [ptime for ptime in ptimes if ptime != 0]
+            for ptimes in ptime_sequences
+        ]
+
+        return new_machine_sequences, new_ptime_sequences
     except Exception as e:
         print(f"Error parsing JSON: {e}")
         return None
@@ -52,14 +38,12 @@ class JSONFileHandler(FileSystemEventHandler):
     def __init__(self, file_path, callback):
         self.file_path = file_path
         self.callback = callback
-        self.callback_called = False
 
     def on_modified(self, event):
-        if event.src_path == self.file_path and not self.callback_called:
+        if event.src_path == self.file_path:
             with open(self.file_path, 'r') as file:
                 data = json.load(file)
             self.callback(data)
-            self.callback_called = True
 
 def wait_for_json_update(file_path, callback):
     event_handler = JSONFileHandler(file_path, callback)
@@ -68,40 +52,24 @@ def wait_for_json_update(file_path, callback):
     observer.start()
 
     try:
-        while not event_handler.callback_called:
+        while True:
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
     observer.stop()
     observer.join()
 
-def on_json_update(data):
-    print("JSON file updated with new values:")
-    print(data)
-    start_execution(data)
-
 def robot_process(navigator, sequence, ptimes, robot_namespace):
-    m1 = [-3.32, 6.65]
-    m2 = [-3.38, 1.46]
-    m3 = [1.627, 6.459]
-    m4 = [1.681, 1.407]
-    loading_dock = [-6.69, 4.028]
-    unloading_dock = [3.52, 3.96]
-
     poses = {
-        '0': m1,
-        '1': m2,
-        '2': m3,
-        '3': m4,
-        '-1': loading_dock,
-        '-2': unloading_dock
+        '0': [-3.32, 6.65],
+        '1': [-3.38, 1.46],
+        '2': [1.627, 6.459],
+        '3': [1.681, 1.407],
+        '-1': [-6.69, 4.028],
+        '-2': [3.52, 3.96]
     }
 
-    inspection_route = []
-    for m in sequence:
-        inspection_route.append(poses[str(m)])
-
-    for i, m in zip(range(len(sequence)), sequence):
+    for i, m in enumerate(sequence):
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
         goal_pose.header.stamp = navigator.get_clock().now().to_msg()
@@ -109,100 +77,77 @@ def robot_process(navigator, sequence, ptimes, robot_namespace):
         goal_pose.pose.position.y = poses[str(m)][1]
         goal_pose.pose.orientation.w = 1.0
 
+        print(f'{robot_namespace} Going to {m}')
         navigator.goToPose(goal_pose)
-        if m >= 0:
-            print(f'{robot_namespace} Going to machine {m}')
-        elif m == -1:
-            print(f'{robot_namespace} Going to Loading dock for next job')
-        elif m == -2:
-            print(f'{robot_namespace} Going to unloading dock to drop completed job')
+
         while not navigator.isTaskComplete():
             time.sleep(1)
-        
-        print(f'job being processed for time {ptimes[i]} seconds')
-        time.sleep(ptimes[i])
+
+        if i < len(ptimes):
+            print(f'{robot_namespace} Job being processed for {ptimes[i]} seconds')
+            time.sleep(ptimes[i])
 
     result = navigator.getResult()
     if result == TaskResult.SUCCEEDED:
-        print(f'{robot_namespace} Inspection of shelves complete! Returning to start...')
+        print(f'{robot_namespace} Task completed successfully.')
     elif result == TaskResult.CANCELED:
-        print(f'{robot_namespace} Inspection of shelving was canceled. Returning to start...')
-        exit(1)
+        print(f'{robot_namespace} Task was canceled.')
     elif result == TaskResult.FAILED:
-        print(f'{robot_namespace} Inspection of shelving failed! Returning to start...')
+        print(f'{robot_namespace} Task failed.')
 
-def start_execution(data):
-    try:
-        rclpy.init()
+def manage_threads(robot_namespaces, sequences, ptimes, executor):
+    navigators = []
+    threads = []
 
-        json_file_path = '/home/daniel/CustomMultibot/src/JobShopGA/amr_data.json'
-        sequences = parse_json(json_file_path)
-        if sequences is None:
-            print("Failed to parse JSON file, exiting.")
-            return
+    for i, namespace in enumerate(robot_namespaces):
+        if i >= len(sequences):
+            break
+        
+        print(f"Initializing {namespace}")
+        navigator = BasicNavigator(namespace=namespace)
+        navigators.append(navigator)
 
-        amr_sequences, amr_ptimes = sequences
+        sequence = sequences[i]
+        ptime = ptimes[i]
 
-        robot_namespaces = ['robot1', 'robot2']  # Example namespaces, you can extend this list (I Know, Its my Idea)
+        thread = threading.Thread(target=robot_process, args=(navigator, sequence, ptime, namespace))
+        threads.append(thread)
+        thread.start()
 
-        threads = []
-        executors = []
-        navigators = []
+    for thread in threads:
+        thread.join()
 
-        for i, namespace in enumerate(robot_namespaces):
-            if i >= len(amr_sequences):
-                print(f"Not enough sequences for robot {namespace}")
-                break
-            print(f"Initializing {namespace}")
-            navigator = BasicNavigator(namespace=namespace)
-            sequence = amr_sequences[i]
-            ptimes = amr_ptimes[i]
-            if navigator is None or sequence is None or ptimes is None:
-                print("Failed to initialize navigator or sequence, exiting.")
-                return
-            thread = threading.Thread(target=robot_process, args=(navigator, sequence, ptimes, namespace))
-            executor = MultiThreadedExecutor()
-            executor.add_node(navigator)
+    # for navigator in navigators:
+        # navigator.shutdown()
 
-            threads.append(thread)
-            executors.append(executor)
-            navigators.append(navigator)
+def start_execution(sequences, ptimes):
+    rclpy.init()
 
-        def spin_executor(executor):
-            if executor is None:
-                print("Executor is None, exiting.")
-                return
-            executor.spin()
+    robot_namespaces = ['robot1', 'robot2']  # Example namespaces
 
-        executor_threads = [threading.Thread(target=spin_executor, args=(executor,)) for executor in executors]
+    # Use a single MultiThreadedExecutor
+    executor = MultiThreadedExecutor()
 
-        for executor_thread in executor_threads:
-            executor_thread.start()
+    # Manage threads based on the namespaces
+    manage_threads(robot_namespaces, sequences, ptimes, executor)
 
-        for thread in threads:
-            if thread is None:
-                print("Thread is None, exiting.")
-                return
-            thread.start()
+    # rclpy.shutdown()
 
-        for thread in threads:
-            thread.join()
+def on_json_update(data):
+    print("JSON file updated with new values:")
+    print(data)
+    
+    sequences, ptimes = parse_json('/home/daniel/Multi-robot-Navigation/src/JobShopGA/amr_data.json')
+    
+    if sequences is None:
+        print("Failed to parse JSON file, exiting.")
+        return
 
-        for executor in executors:
-            if executor is None:
-                print("Executor is None, exiting.")
-                return
-            executor.shutdown()
-
-        rclpy.shutdown()
-
-    except Exception as e:
-        print(f"An exception occurred: {e}")
-        rclpy.shutdown()
+    start_execution(sequences, ptimes)
 
 def main():
-    print('go to points is being executed')
-    json_file_path = '/home/daniel/CustomMultibot/src/JobShopGA/amr_data.json'
+    print('Waiting for JSON file update...')
+    json_file_path = '/home/daniel/Multi-robot-Navigation/src/JobShopGA/amr_data.json'
     wait_for_json_update(json_file_path, on_json_update)
 
 if __name__ == '__main__':
