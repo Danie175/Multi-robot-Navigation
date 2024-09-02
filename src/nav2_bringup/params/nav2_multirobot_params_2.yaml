@@ -190,12 +190,12 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.33
       keepout_filter:
         plugin: "nav2_costmap_2d::KeepoutFilter"
         enabled: True
         filter_info_topic: "/costmap_filter_info"
-        mask: /home/daniel/CustomMultibot/src/keepout_mask.yaml
+        mask: /home/daniel/Multi-robot-Navigation/src/keepout_mask.yaml
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -246,12 +246,12 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.30
       keepout_filter:
         plugin: "nav2_costmap_2d::KeepoutFilter"
         enabled: True
         filter_info_topic: "/costmap_filter_info"
-        mask: /home/tarun_56/multibot_ws/src/keepout_mask.yaml
+        mask: /home/daniel/Multi-robot-Navigation/src/keepout_mask.yaml
       always_send_full_costmap: True
 
 map_server:

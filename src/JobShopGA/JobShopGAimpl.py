@@ -13,17 +13,36 @@ from datetime import datetime
 from amr import AMR
 import json
 
-m = 4
-n = 3
-num_amrs = 2
-N = 100
-pc = 0.8
-pm = 0.05
-pswap = 0.05
-pinv = 0.05
-activate_termination = 0
+import traceback
+import inspect
 
-T = 200
+
+
+'''
+Parameters are HERE
+'''
+m = 4
+n = 3  
+num_amrs = 2
+N = 350
+pc = 0.7
+pm = 0.5
+pswap = 0.5
+pinv = 0.5
+T = 100
+
+activate_termination = 0
+enable_travel_time = 0
+display_convergence = 0
+display_schedule = 0
+create_txt_file = 0
+update_json_file = 1
+
+
+converged_at = 0
+'''
+INSTANCE DATA FOR JOB SHOP
+'''
 
 # Pinedo book first example
 machine_data = [0,1,2,3, 1,0,3,2, 0,1,3,2]
@@ -32,7 +51,6 @@ ptime_data = [10,8,4,0, 4,3,5,6, 4,7,3,0]
 #Pinedo Book second example
 # machine_data = [0,1,2,3, 0,1,3,2, 2,0,1,3]
 # ptime_data = [9,8,4,0, 5,6,3,0, 10,4,9,0]
-
 
 
 # machine_data = [0,1,2,3,4, 1,0,3,2,4, 0,1,3,2,4, 1,3,4,2,3]
@@ -58,9 +76,28 @@ ptime_data = [10,8,4,0, 4,3,5,6, 4,7,3,0]
 
 # machine_data = [3, 11, 14, 1, 10, 2, 4, 7, 0, 12, 5, 9, 6, 13, 8, 5, 0, 3, 8, 4, 1, 12, 14, 6, 7, 10, 2, 9, 13, 11, 2, 3, 14, 0, 9, 12, 5, 4, 7, 10, 8, 11, 13, 1, 6, 8, 10, 1, 13, 3, 4, 14, 9, 2, 5, 11, 7, 0, 6, 12, 14, 8, 1, 2, 10, 9, 12, 4, 6, 5, 0, 13, 3, 11, 7, 3, 10, 1, 5, 6, 0, 8, 7, 11, 13, 2, 14, 12, 9, 4, 2, 10, 1, 12, 8, 0, 7, 6, 14, 13, 4, 3, 5, 9, 11, 1, 0, 2, 4, 7, 13, 11, 3, 12, 5, 6, 14, 9, 8, 10, 4, 5, 9, 10, 7, 6, 2, 1, 12, 3, 13, 0, 8, 14, 11, 1, 4, 3, 10, 14, 0, 6, 13, 11, 8, 5, 12, 7, 9, 2, 3, 10, 1, 0, 9, 8, 14, 6, 4, 7, 2, 12, 5, 11, 13, 2, 7, 6, 8, 3, 5, 14, 4, 1, 0, 9, 10, 13, 11, 12, 0, 7, 14, 8, 12, 10, 9, 3, 6, 1, 4, 2, 11, 13, 5, 12, 3, 9, 4, 1, 0, 10, 6, 5, 2, 14, 13, 7, 8, 11, 3, 14, 6, 5, 13, 9, 1, 0, 12, 7, 2, 4, 10, 8, 11, 5, 14, 6, 12, 8, 2, 4, 9, 11, 13, 3, 1, 7, 0, 10, 3, 7, 10, 14, 0, 8, 1, 11, 5, 13, 4, 12, 6, 9, 2, 10, 8, 2, 11, 13, 6, 14, 3, 9, 7, 4, 5, 12, 0, 1, 3, 2, 12, 13, 1, 6, 14, 5, 4, 8, 9, 11, 0, 10, 7, 11, 14, 5, 6, 10, 9, 13, 1, 4, 8, 0, 3, 12, 2, 7]
 
+
+
+
 # FISHER THOMPSON ft06 6*6 
 # ptime_data = [1, 3, 6, 7, 3, 6,  8, 5, 10, 10, 10, 4,  5, 4, 8, 9, 1, 7,  5, 5, 5, 3, 8, 9,  9, 3, 5, 4, 3, 1,  3, 3, 9, 10, 4, 1]
 # machine_data = [2, 0, 1, 3, 5, 4,  1, 2, 4, 5, 0, 3,  2, 3, 5, 0, 1, 4,  1, 0, 2, 3, 4, 5,  2, 1, 4, 5, 0, 3,  1, 3, 5, 0, 4, 2]
+
+# FISHER THOMPSON ft10 10 * 10
+# ptime_data = [
+#     29, 78, 9, 36, 49, 11, 62, 56, 44, 21,
+#     43, 90, 75, 11, 69, 28, 46, 46, 72, 30,
+#     91, 85, 39, 74, 90, 10, 12, 89, 45, 33,
+#     81, 95, 71, 99, 9, 52, 85, 98, 22, 43,
+#     14, 6, 22, 61, 26, 69, 21, 49, 72, 53,
+#     84, 2, 52, 95, 48, 72, 47, 65, 6, 25,
+#     46, 37, 61, 13, 32, 21, 32, 89, 30, 55,
+#     31, 86, 46, 74, 32, 88, 19, 48, 36, 79,
+#     76, 69, 76, 51, 85, 11, 40, 89, 26, 74,
+#     85, 13, 61, 7, 64, 76, 47, 52, 90, 45
+# ]
+
+# machine_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 4, 9, 3, 1, 6, 5, 7, 8, 1, 0, 3, 2, 8, 5, 7, 6, 9, 4, 1, 2, 0, 4, 6, 8, 7, 3, 9, 5, 2, 0, 1, 5, 3, 4, 8, 7, 9, 6, 2, 1, 5, 3, 8, 9, 0, 6, 4, 7, 1, 0, 3, 2, 6, 5, 9, 8, 7, 4, 2, 0, 1, 5, 4, 6, 8, 9, 7, 3, 0, 1, 3, 5, 2, 9, 6, 7, 4, 8, 1, 0, 2, 6, 8, 9, 5, 3, 4, 7]
 
 
 # LAWRENCE la01 10*5
@@ -83,14 +120,96 @@ ptime_data = [10,8,4,0, 4,3,5,6, 4,7,3,0]
 # machine_data = [1, 0, 4, 2, 3, 4, 3, 0, 2, 1, 1, 3, 2, 0, 4, 0, 3, 4, 1, 2, 4, 2, 3, 1, 0, 3, 0, 4, 1, 2, 0, 3, 1, 4, 2, 4, 2, 3, 1, 0, 2, 3, 1, 0, 4, 2, 3, 0, 4, 1]
 # ptime_data = [72, 87, 95, 66, 60, 5, 35, 48, 39, 54, 46, 20, 21, 97, 55, 59, 19, 46, 34, 37, 23, 73, 25, 24, 28, 28, 45, 5, 78, 83, 53, 71, 37, 29, 12, 12, 87, 33, 55, 38, 49, 83, 40, 48, 7, 65, 17, 90, 27, 23]
 
+# LAWRENCE Benchmark  la06 15*5
+# ptime_data = [
+#     21, 34, 95, 53, 55,
+#     52, 16, 71, 26, 21,
+#     31, 12, 42, 39, 98,
+#     77, 77, 79, 55, 66,
+#     37, 34, 64, 19, 83,
+#     43, 54, 92, 62, 79,
+#     93, 69, 87, 77, 87,
+#     60, 41, 38, 83, 24,
+#     98, 17, 25, 44, 49,
+#     96, 77, 79, 75, 43,
+#     28, 35, 95, 76, 7,
+#     61, 10, 95, 9, 35,
+#     59, 16, 91, 59, 46,
+#     43, 52, 28, 27, 50,
+#     87, 45, 39, 9, 41
+# ]
+
+# machine_data = [1, 2, 4, 0, 3, 3, 4, 1, 2, 0, 2, 0, 1, 3, 4, 3, 1, 4, 0, 2, 4, 3, 2, 1, 0, 2, 1, 0, 3, 4, 0, 3, 1, 4, 2, 0, 1, 2, 4, 3, 2, 3, 4, 0, 1, 0, 4, 3, 1, 2, 4, 2, 0, 3, 1, 0, 4, 2, 1, 3, 4, 3, 1, 2, 0, 4, 1, 0, 2, 3, 0, 1, 2, 4, 3]
 
 
 
-def get_file(best_chromosome, processing_time):
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    filename = f'la05{timestamp}.txt'             # CHANGE FILE NAME
+'''
+Distances between machines for Pinedo book first example
+'''
+
+# TEST MATRIX 
+# distance_matrix = np.array([
+#     [0,2,4,4],
+#     [2,0,4,4],
+#     [4,4,0,2],
+#     [4,4,2,0]
+# ])
+
+# WAREHOUSE MATRIX FOR GAZEBO SIMULATION
+# distance_matrix = np.array([
+#     [0, 5.16, 10.258, 10.258, 6.12, 9.258],
+#     [5.16, 0, 10.258, 10.258, 6.12, 9.258],
+#     [10.258, 10.258, 0, 5.16, 11.218, 6.86],
+#     [10.258, 10.258, 5.16, 0, 11.218, 6.86],
+#     [6.12, 6.12, 11.218, 11.218, 0, 10.22],
+#     [9.258, 9.258, 6.86, 6.86, 10.22, 0]
+# ])
+
+
+# distance_matrix = np.array([
+#     [0,0,0,0,0,0],
+#     [0,0,0,0,0,0],
+#     [0,0,0,0,0,0],
+#     [0,0,0,0,0,0]
+# ])
+
+
+
+if enable_travel_time:
+    # distance_matrix = np.array([
+    #     [0, 5.16, 10.258, 10.258, 6.12, 9.258],
+    #     [5.16, 0, 10.258, 10.258, 6.12, 9.258],
+    #     [10.258, 10.258, 0, 5.16, 11.218, 6.86],
+    #     [10.258, 10.258, 5.16, 0, 11.218, 6.86],
+    #     [6.12, 6.12, 11.218, 11.218, 0, 10.22],
+    #     [9.258, 9.258, 6.86, 6.86, 10.22, 0]
+    # ])
     
-    directory = 'E:\Python\JobShopGA\Results\la05'        # CHANGE SAVING DIRECTORY
+    # PAPER MATRIX
+    distance_matrix = np.array([
+        [0, 5, 10, 10, 6, 9],
+        [5, 0, 10, 10, 6, 9],
+        [10, 10, 0, 5, 11, 6],
+        [10, 10, 5, 0, 11, 6],
+        [6, 6, 11, 11, 0, 10],
+        [9, 9, 6, 6, 10, 0]
+    ])
+else:
+    distance_matrix = np.array([
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0]
+])
+
+
+def get_file(best_chromosome, processing_time, converged_at):
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    filename = f'la01{timestamp}.docx'             # CHANGE FILE NAME
+    if converged_at == 0:
+        converged_at = processing_time
+    
+    directory = '/home/daniel/Multi-robot-Navigation/src/JobShopGA/Results/'        # CHANGE SAVING DIRECTORY
     
     filepath = os.path.join(directory, filename)
     
@@ -98,8 +217,9 @@ def get_file(best_chromosome, processing_time):
     with open(filepath, 'w') as file:
         file.write(f"Genetic Algorithm Specifications\n")
         file.write("------------------------\n")
-        file.write(f'N = {N}, T = {T}, pc = {pc}, pm = {pm}, pswap = {pswap}, pinv = {pinv}\n')
+        file.write(f'N = {N}, T = {T}, pc = {pc}, pm = {pm}, pswap = {pswap}, pinv = {pinv}, num_amrs {num_amrs}\n')
         file.write(f'Processing time = {processing_time}\n')
+        file.write(f'Converged at = {converged_at}\n')
         file.write(f'best Cmax = {best_chromosome.fitness}\n')
         
         file.write(f'random generated numbers:{best_chromosome.encoded_list}\n')
@@ -199,9 +319,11 @@ def remove_duplicates(numbers):
             while modified_num in seen:
                 modified_num += 0.01
             modified_numbers.append(modified_num)
+            seen.add(modified_num)
         else:
             modified_numbers.append(num)
             seen.add(num)
+        
     
     return modified_numbers
 
@@ -249,12 +371,16 @@ def schedule_operations(population, jobs):
 def indiv_schedule_operations(chromosome, jobs):
     operation_list = []
     explored = []
+    # print(chromosome)
+    # x = Counter(chromosome)
+    # for i in x.elements():
+    #     print( "% s : % s" % (i, x[i]), end ="\n")
     
     for i in range(len(chromosome)):
         explored.append(chromosome[i])
         numcount = explored.count(chromosome[i])
-        if numcount <= m:
-            operation_list.append(jobs[chromosome[i]].operations[numcount-1])  # changed chromosome[i] to chromosome[i]-1
+        # if numcount < m:
+        operation_list.append(jobs[chromosome[i]].operations[numcount-1])  # changed chromosome[i] to chromosome[i]-1
     return operation_list
             
 # gives each operation a job number of whihc job it is part of
@@ -262,7 +388,7 @@ def install_operations(jobs):
     for job in jobs:
         job.operations = [Operation(job.job_number) for i in range(m)]
 
-operation_data = create_operation_data(machine_data,ptime_data, m)
+# operation_data = create_operation_data(machine_data,ptime_data, m)
 
 def assign_data_to_operations(jobs, operation_data):
     for job,sublist in zip(jobs, operation_data):
@@ -329,6 +455,14 @@ def calculate_Cj(operation_schedule, machines, jobs, machine_sequence, ptime_seq
                 # print(f'machine no: {machines[operation.machine].machine_id}, new finish time :{machines[operation.machine].finish_operation_time}')
                 
 
+'''
+The Cj is calculated by adding up the times of machine processes, and travel times across each machine.
+Edge cases solved:
+-A different job completed before travel time of first job to the same machine.
+-Two jobs on different AMRs at the same machine (travel time delay is not to be considered)
+-When a job have number of operations < m (is not processed on all machines)
+'''
+
 def calculate_Cj_with_amr(operation_schedule, machines, jobs, amrs):
     t_op = operation_schedule
     skipped = []
@@ -348,7 +482,15 @@ def calculate_Cj_with_amr(operation_schedule, machines, jobs, amrs):
             if operation.job_number == amrs[jobs[operation.job_number].amr_number].current_job:
                 
                 if operation.operation_number == 0:
-                    operation.start_time = machines[operation.machine].finish_operation_time
+                    if amrs[jobs[operation.job_number].amr_number].completed_jobs == []:
+                        operation.start_time = machines[operation.machine].finish_operation_time
+                    else:
+                        # MAKE SURE THE PREVIOUS JOBS TRAVEL TIME SHOULD BE GIVEN TO NEXT JOB IF M'TH JOB IS HAVING PJ = 0
+                        i = 0
+                        while jobs[amrs[jobs[operation.job_number].amr_number].completed_jobs[-1]].operations[m-i-1].Pj == 0:
+                            i+=1   
+                        operation.start_time = machines[operation.machine].finish_operation_time + jobs[amrs[jobs[operation.job_number].amr_number].completed_jobs[-1]].operations[m-i-1].travel_time
+                        
                     jobs[operation.job_number].job_start_time = operation.start_time # SET JOB START TIME
                     operation.Cj = operation.start_time + operation.Pj
                     machines[operation.machine].finish_operation_time = operation.Cj
@@ -356,14 +498,15 @@ def calculate_Cj_with_amr(operation_schedule, machines, jobs, amrs):
                     
                     
                 else:
-                    if jobs[operation.job_number].operations[operation.operation_number - 1].Cj < machines[operation.machine].  finish_operation_time:
+                    # IF MACHINE RUN TIME IS LESSER THAN JOB COMPLETION TIME AND TRAVEL TIME FROM PREVIOUS LOCATION COMBINED.
+                    if jobs[operation.job_number].operations[operation.operation_number - 1].Cj + jobs[operation.job_number].operations[operation.operation_number - 1].travel_time < machines[operation.machine].  finish_operation_time:
                         operation.start_time = machines[operation.machine].finish_operation_time
                         operation.Cj = operation.start_time + operation.Pj
-                        machines[operation.machine].finish_operation_time = operation.Cj
+                        machines[operation.machine].finish_operation_time = operation.Cj 
                         # print(f'machine no: {machines[operation.machine].machine_id}, new finish time :{machines[operation.machine].finish_operation_time}')
                         
                     else:
-                        operation.start_time = jobs[operation.job_number].operations[operation.operation_number - 1].Cj
+                        operation.start_time = jobs[operation.job_number].operations[operation.operation_number - 1].Cj + jobs[operation.job_number].operations[operation.operation_number - 1].travel_time
                         operation.Cj = operation.start_time + operation.Pj
                         if operation.Pj != 0:
                             machines[operation.machine].finish_operation_time = operation.Cj
@@ -395,7 +538,6 @@ def calculate_Cj_with_amr(operation_schedule, machines, jobs, amrs):
         skipped = []
     # eof while
 
-
 def assign_machine_operationlist(machines, operation_schedule):
     for operation in operation_schedule:
         machines[operation.machine].operationlist.append(operation)
@@ -407,9 +549,6 @@ def get_Cmax(machines):
         
     return max(runtimes)
 
-'''
-AMR assignment is random each time a chromosome is generated, this is to be looked into
-'''
 
 # def process_chromosome(chromosome, amr_assignments):
     
@@ -457,13 +596,33 @@ AMR assignment is random each time a chromosome is generated, this is to be look
 #     return chromosome
 
 def check_list_length(my_list):
+    
+    
     try:
         if len(my_list) != m*n:
             raise ValueError(f"List length is not {m*n}")
         # print("List length is 12")
     except ValueError as e:
         print(f"Error: {e}")
-
+        print(len(my_list))
+        tb = traceback.format_exc()
+        print("Traceback:\n", tb)
+        stack = inspect.stack()
+        print("Call stack:")
+        for frame in stack:
+            print(f"File: {frame.filename}, Line: {frame.lineno}, Function: {frame.function}")
+        
+# def get_travel_time(jobs, amrs, distance_matrix):
+    
+def get_travel_time(jobs, amrs, distance_matrix):
+    for job in jobs:
+        for operation in job.operations:
+            operation.travel_time = operation.calculate_travel_time(amrs, jobs, distance_matrix, enable_travel_time)
+            
+            
+'''
+Single function to completely process an individual chromosome.
+'''
 
 def process_chromosome(chromosome, amr_assignments):
     
@@ -474,8 +633,9 @@ def process_chromosome(chromosome, amr_assignments):
     assign_operations(jobs, operation_data)
     
     chromosome = remove_duplicates(chromosome)
-    
+    # print(chromosome)
     ranked_list = indiv_integer_list(chromosome)
+    # print(ranked_list)
     operation_index_list = indiv_getJobindex(ranked_list)
     
     # CASE 1
@@ -484,8 +644,9 @@ def process_chromosome(chromosome, amr_assignments):
     
     install_operations(jobs)
     assign_data_to_operations(jobs, operation_data)
-    check_list_length(operation_index_list)
-    operation_schedule = indiv_schedule_operations(operation_index_list, jobs)
+    # check_list_length(operation_index_list)
+    
+    operation_schedule = indiv_schedule_operations(operation_index_list, jobs)    # HERE IS THE MF ERROR
     check_list_length(operation_schedule)
     assign_amrs_to_jobs(jobs, amrs, amr_assignments)
     
@@ -494,6 +655,9 @@ def process_chromosome(chromosome, amr_assignments):
     
     # get the sequence of processing times
     ptime_sequence = get_processing_times(operation_schedule)
+    
+    # SET TRAVEL TIMES FOR EACH JOB
+    get_travel_time(jobs, amrs, distance_matrix)
     
     # calculate_Cj(operation_schedule, machines, jobs)
     calculate_Cj_with_amr(operation_schedule, machines, jobs, amrs)
@@ -555,6 +719,10 @@ def PlotGanttChar (chromosome):
                 ax.broken_barh([(ST, j.Pj)], (-0.3+i, 0.6), facecolor=colors[j.job_number], linewidth=1, edgecolor='black')
                 ax.text((ST + (j.Pj)/2), (i), '{}'.format(j.job_number + 1), fontsize=18)
     
+    
+'''
+Plots a gantt chart along with AMR constraints applied.
+'''
 def PlotGanttChar_with_amr(chromosome):
 
     # Get the makespan (Cmax) from the chromosome
@@ -574,7 +742,7 @@ def PlotGanttChar_with_amr(chromosome):
     ax.tick_params(axis='x', labelcolor='red', labelsize=16)
     ax.grid(True)
 
-    tmpTitle = 'Job Shop Scheduling (m={:02d}; n={:03d}; Cmax={:04d})'.format(m, n, Cmax)
+    tmpTitle = f'Job Shop Scheduling (m={m}; n={n}; AMRs:{num_amrs}; Cmax={round(Cmax, 2)}; )'
     ax.set_title(tmpTitle, size=20, color='blue')
 
     colors = ['orange', 'deepskyblue', 'indianred', 'limegreen', 'slateblue', 'gold', 'violet', 'grey', 'red', 'magenta', 'blue', 'green', 'silver']
@@ -586,6 +754,8 @@ def PlotGanttChar_with_amr(chromosome):
             ST = j.start_time
             if j.Pj != 0:
                 ax.broken_barh([(ST, j.Pj)], (-0.3 + i, 0.6), facecolor=colors[j.job_number], linewidth=1, edgecolor='black')
+                ax.broken_barh([(j.Cj, j.travel_time)], (-0.3 + i, 0.6), facecolor='black', linewidth=1, edgecolor='black')
+                
                 ax.text(ST + (j.Pj / 2 - 0.3), i + 0.03, '{}'.format(j.job_number), fontsize=18)
     
     
@@ -618,7 +788,24 @@ def PlotGanttChar_with_amr(chromosome):
                 top_ax.text(ST + (duration) / 2 , i - 0.2, '{}'.format(j.job_number), fontsize=14, ha = 'center')
 
     plt.tight_layout()
+    
+    if create_txt_file:
+        # CHANGE DIRECTORY FOR SAVING FIGURE
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        filename = f'/home/daniel/Multi-robot-Navigation/src/JobShopGA/Results/gantt_chart{timestamp}'
+        plt.savefig(filename)
     # plt.show()
+        # directory = '/home/daniel/Multi-robot-Navigation/src/JobShopGA/Results/'        # CHANGE SAVING DIRECTORY
+
+'''
+Types of Selection methods implemented:
+USED IN ALGORITHM:
+-two way tournament (tournament)
+
+NOT USED IN ALGORITHM
+-three way tournament (three_way_tournament)
+-stochastic universal sampling (stochastic_universal_sampling)
+'''
     
 def tournament(population):
     indices2 = [x for x in range(N)]
@@ -702,6 +889,12 @@ def stochastic_universal_sampling(population, num_parents):
 
     return selected_individuals
 
+'''
+Implemented crossover functions:
+USED IN ALGORITHM:
+single_point_crossover
+double_point_crossover  (non overlapping)
+'''
 
 def single_point_crossover(chrom1, chrom2, amr_assignments):
     
@@ -717,10 +910,10 @@ def single_point_crossover(chrom1, chrom2, amr_assignments):
     else:
         offspring1 = parent1[0:p] + parent2[p:]
         offspring2 = parent2[0:p] + parent1[p:]
-        checked_offsp1 = remove_duplicates(offspring1)
-        checked_offsp2 = remove_duplicates(offspring2)
-        chrom_out1 = process_chromosome(checked_offsp1, amr_assignments)
-        chrom_out2 = process_chromosome(checked_offsp2, amr_assignments)
+        # checked_offsp1 = remove_duplicates(offspring1)[:]
+        # checked_offsp2 = remove_duplicates(offspring2)[:]
+        chrom_out1 = process_chromosome(offspring1, amr_assignments)
+        chrom_out2 = process_chromosome(offspring2, amr_assignments)
     
     return chrom_out1, chrom_out2
 
@@ -740,10 +933,10 @@ def double_point_crossover(chrom1, chrom2, amr_assignments):
     child1 = parent1[:point1] + parent2[point1:point2] + parent1[point2:]
     child2 = parent2[:point1] + parent1[point1:point2] + parent2[point2:]
         
-    checked_offsp1 = remove_duplicates(child1)
-    checked_offsp2 = remove_duplicates(child2)
-    offspring1 = process_chromosome(checked_offsp1, amr_assignments)
-    offspring2 = process_chromosome(checked_offsp2, amr_assignments)
+    # checked_offsp1 = remove_duplicates(child1)[:]
+    # checked_offsp2 = remove_duplicates(child2)[:]
+    offspring1 = process_chromosome(child1, amr_assignments)
+    offspring2 = process_chromosome(child2, amr_assignments)
     
     return offspring1, offspring2
     
@@ -752,17 +945,27 @@ def double_point_crossover(chrom1, chrom2, amr_assignments):
 def single_bit_mutation(chromosome, amr_assignments):
     
     r = random.uniform(0,1)
-    code = chromosome.encoded_list
+    code = chromosome.encoded_list[:]
     
     if r > pm:
         return chromosome
     else:
         index = random.randint(0, len(code) - 1)
         code[index] = round(random.uniform(0,m*n), 2)
-        checked_code = remove_duplicates(code)
-        mutated_chromosome = process_chromosome(checked_code, amr_assignments)
+        # checked_code = remove_duplicates(code)[:]
+        mutated_chromosome = process_chromosome(code, amr_assignments)
     
     return mutated_chromosome
+
+'''
+Implemented next gen selection:
+USED IN ALGORITHM:
+-replace worst by sorting parent+offspring population
+
+NOT USED IN ALGORITHM:
+20% best parent population, 80% best offspring population
+
+'''
 
 def next_gen_selection(parents, offsprings):
     total_population = []
@@ -793,7 +996,7 @@ def swapping(chromosome, amr_assignments):
     if r > pswap:
         return chromosome
     
-    code = chromosome.encoded_list
+    code = chromosome.encoded_list[:]
     indexes = [num for num in range(len(code))]
     
     p = random.choice(indexes)
@@ -812,7 +1015,7 @@ def inversion(chromosome, amr_assignments):
     if r > pinv:
         return chromosome
     
-    code = chromosome.encoded_list
+    code = chromosome.encoded_list[:]
     indexes = [num for num in range(len(code))]
     p = random.choice(indexes)
     q = random.choice(indexes)
@@ -839,6 +1042,15 @@ def create_disturbance(population):
     
     new_population = first_half + rem
     return new_population
+
+'''
+Heuristics implemented and used:
+
+Shortest processing time first (SPT_heuristic)
+Longest Processing Time first (LPT_heuristic)
+Shortest Remaining Time first (SRT_heuristic)
+
+'''
 
 def SPT_heuristic(operation_data):
     operation_index_list = []
@@ -912,6 +1124,10 @@ def decode_operations_to_schedule(operation_index, num_jobs=n):
 
     return ranked_list, random_numbers
 
+
+'''
+Generate one particle from each heuristic and append to population, remaining are randomly generated
+'''
 def generate_population_with_heuristic(operation_data, amr_assignments):
     # p = N//2
     
@@ -960,6 +1176,7 @@ def generate_population_with_heuristic(operation_data, amr_assignments):
             ranked, code = decode_operations_to_schedule(spt_op_seq)
             population.append(process_chromosome(code, amr_assignments))
             
+            
         for i in range(2):
             lpt_op_seq = LPT_heuristic(operation_data)
             ranked, code = decode_operations_to_schedule(lpt_op_seq)
@@ -979,44 +1196,18 @@ def generate_population_with_heuristic(operation_data, amr_assignments):
         
     return population
 
-# def get_sequences_in_amr(amrs):
-#     amr_machines = []
-#     amr_ptimes = []
-#     glob_amr_machine = []
-#     glob_amr_ptime = []
-#     for amr in amrs:
-#         for j in amr.job_objects:
-#             for o in j.operations:
-#                 amr_machines.append(o.machine)
-#                 amr_ptimes.append(o.Pj)
-#         amr.machine_sequence = amr_machines
-#         amr.ptime_sequence = amr_ptimes
-#         glob_amr_machine.append(amr_machines)
-#         glob_amr_ptime.append(amr_ptimes)
-#         amr_machines = []
-#         amr_ptimes = []
-        
-#     return glob_amr_machine, glob_amr_ptime
-
 def get_sequences_in_amr(amrs):
-    amr_machines = []
-    amr_ptimes = []
     glob_amr_machine = []
     glob_amr_ptime = []
     for amr in amrs:
-        for j in amr.job_objects:
-            for o in j.operations:
-                amr_machines.append(o.machine)
-                amr_ptimes.append(o.Pj)
-            amr_machines.extend([-2, -1])
-            amr_ptimes.extend([2, 2])
+        amr_machines = [o.machine for j in amr.job_objects for o in j.operations]
+        amr_machines.extend([-2, -1])
+        amr_ptimes = [o.Pj for j in amr.job_objects for o in j.operations]
+        amr_ptimes.extend([1, 1])
         amr.machine_sequence = amr_machines
         amr.ptime_sequence = amr_ptimes
         glob_amr_machine.append(amr_machines)
         glob_amr_ptime.append(amr_ptimes)
-        amr_machines = []
-        amr_ptimes = []
-        
     return glob_amr_machine, glob_amr_ptime
 
 def create_amr_json(machine_sequences, ptime_sequences, output_file):
@@ -1039,163 +1230,12 @@ def create_amr_json(machine_sequences, ptime_sequences, output_file):
     # Write the data to a JSON file
     with open(output_file, 'w') as json_file:
         json.dump(amr_data, json_file, indent=4)
-
+        
+        
+'''
+UNOPTIMIZED MAIN LOOP (was used for debugging)
+'''
 def main1():
-    operation_data = create_operation_data(machine_data,ptime_data, m)
-
-
-    jobs = [Job(number) for number in range(n)]
-    machines = [Machine(number) for number in range(m)]
-
-
-    assign_operations(jobs, operation_data)
-
-    initial_population = generate_population(N)
-    ranked_population = integer_list(initial_population)
-    operation_index_pop = getJobindex(ranked_population)
-
-    # CASE 1
-    # operation_index_pop = [[2, 0, 2, 1, 0, 2, 0, 1, 1, 1, 2, 0]]
-
-    # CASE 2
-    # operation_index_pop = [[0, 1, 2, 1, 0, 0, 2, 2, 1, 1, 0, 2]] 
-
-    # install the operations in each job
-    install_operations(jobs)
-    assign_data_to_operations(jobs, operation_data)
-    # create sequence with actual operations
-    operation_schedule = schedule_operations(operation_index_pop, jobs)
-
-    # get the sequence of machines
-    machine_sequence = get_machine_sequence(operation_schedule)
-
-    # get the sequence of processing times
-    ptime_sequence = get_processing_times(operation_schedule)
-
-    calculate_Cj(operation_schedule, machines, jobs, machine_sequence, ptime_sequence)
-    Cmax = get_Cmax(machines)
-
-    if print_out:
-        print(operation_data)
-        print('Job 0 operations', jobs[0].operations[0].job_number)
-        print('Job 1 operations', jobs[1].operations[1].job_number)
-        print('Job 2 operations',jobs[2].operations)
-        print('initial population: \n', initial_population)
-        print('ranked list:\n', ranked_population)
-        print('job operation sequence list:\n', operation_index_pop)
-        print('job operation sequence:\n', operation_schedule)
-        print(f'machine sequence: {machine_sequence}')
-        print(f'ptime sequence: {ptime_sequence}')
-        
-        for operation in operation_schedule:
-            print(f'\n operation of job number: {operation.job_number},operation number: {operation.operation_number}, operation machine number :{ operation.machine}, processing time:{operation.Pj}\n Start time: {operation.start_time}, Pj: {operation.Pj }, Cj: {operation.Cj}')
-            
-        for machine in machines:
-            print(f'machine number: {machine.machine_id}, machine finish: {machine.finish_operation_time}')
-            
-        print(f'Cmax is {Cmax}')
-        
-def main2():
-    initial_population = generate_population(N)
-    
-    population = []
-    for encoded_list in initial_population:
-        print(f'generated list: {encoded_list}')
-        chromosome = process_chromosome(encoded_list)
-        population.append(chromosome)
-        
-            
-                    
-        # print('initial fitness')
-        # for chrom in population:
-        #     print(chrom.fitness,end = " ")
-                    
-        # print('winners fitness')
-        # for chrom in winners_list:
-        #     print(chrom.fitness, end = " ")
-            
-    
-    
-    winners_list = tournament(population)
-    
-    print('parents are')
-    for chromosome in winners_list:
-        print(chromosome.encoded_list)
-    
-    # serial crossover section
-    
-    indices = [x for x in range(N)]
-    offspring_list = winners_list
-    while len(indices) != 0:
-        i1 = random.choice(indices)
-        i2 = random.choice(indices)
-        while i1 == i2:
-            i2 = random.choice(indices)
-        
-        offspring1, offspring2 = single_point_crossover(winners_list[i1], winners_list[i2])
-        offspring_list[i1] = offspring1
-        offspring_list[i2] = offspring2
-        
-        indices.remove(i1)
-        indices.remove(i2)
-        
-    print('offsprings are:')
-    for chromosome in offspring_list:
-        print(chromosome.encoded_list)
-    
-    # serial mutation depending of probability
-    mutated_list = []
-    for chromosome in offspring_list:
-        mutated_chromosome = single_bit_mutation(chromosome)
-        mutated_list.append(mutated_chromosome)
-        
-    print('mutated gen are')
-    for chromosome in mutated_list:
-        print(chromosome.encoded_list)
-
-        
-    if print_out:
-        
-        for chromosome in population:
-            # for machine in chromosome.machine_list:
-            #     for operation in machine.operationlist:
-            #         print(f'machine no: {machine.machine_id}, operation assigned mach: {operation.machine}, job no: {operation.job_number}, operation no: {operation.operation_number}')
-            print('random generated numbers:',chromosome.encoded_list)
-            print(f'ranked list : {chromosome.ranked_list}\n operation_index :{chromosome.operation_index_list},\n operation object{chromosome.operation_schedule}\n')
-            print(f'machine sequence: {chromosome.machine_sequence}\n ptime sequence: {chromosome.ptime_sequence}\n Cmax: {chromosome.Cmax}')
-        
-        for chromosome in mutated_list:
-            # for machine in chromosome.machine_list:
-            #     for operation in machine.operationlist:
-            #         print(f'machine no: {machine.machine_id}, operation assigned mach: {operation.machine}, job no: {operation.job_number}, operation no: {operation.operation_number}')
-            print('random generated numbers:',chromosome.encoded_list)
-            print(f'ranked list : {chromosome.ranked_list}\n operation_index :{chromosome.operation_index_list},\n operation object{chromosome.operation_schedule}\n')
-            print(f'machine sequence: {chromosome.machine_sequence}\n ptime sequence: {chromosome.ptime_sequence}\n Cmax: {chromosome.Cmax}')
-            
-    print('initial population')
-    for chromosome in population:
-        print(chromosome.Cmax, end = " ")
-    
-    print('\n')
-    print('mutated and crossover complete')        
-    for chromosome in mutated_list:
-        print(chromosome.Cmax, end = " ")
-        
-    survivors = next_gen_selection(winners_list, mutated_list)
-    
-    print('\n')
-    print('survivors fitness')
-    for chromosome in survivors:
-        print(chromosome.Cmax, end = " ")
-        
-        
-    
-    # PlotGanttChar(mutated_list[0])
-        
-    # plt.show()
-        
-# main Loop running NOT  OPTIMIZED
-def main3():
     
     t = 0
     ypoints = []
@@ -1287,8 +1327,10 @@ def main3():
 
 
     
-# optimizing computation and O(n)
-def main4():
+'''
+Optimized loop main program
+'''
+def main2():
     
     # Record the start time
     start_time = time.time()
@@ -1339,7 +1381,7 @@ def main4():
                 i2 = random.choice(indices)
                 
             rchoice = random.uniform(0,1)
-            if rchoice > 0:
+            if rchoice < 1:
                 offspring1, offspring2 = single_point_crossover(winners_list[i1], winners_list[i2], new_amr_assignments)
             else:
                 # potential bug, skipping job
@@ -1357,13 +1399,23 @@ def main4():
             
             # perform swapping operation
             swap_chromosome = swapping(mutated_chromosome, new_amr_assignments)
+            
+            if swap_chromosome.Cmax < mutated_chromosome.Cmax:
+                enhanced_list.append(swap_chromosome)
+                inverted_chromosome = inversion(swap_chromosome, new_amr_assignments)
+                if inverted_chromosome.Cmax < swap_chromosome.Cmax:
+                    enhanced_list.append(inverted_chromosome)
+                else:
+                    enhanced_list.append(swap_chromosome)
+            else:    
+                enhanced_list.append(mutated_chromosome)
         
-            # perform inversion operation on chromosome
-            inverted_chromosome = inversion(swap_chromosome, new_amr_assignments)
+            # # perform inversion operation on chromosome
+            # inverted_chromosome = inversion(swap_chromosome, new_amr_assignments)
             
-            enhanced_list.append(inverted_chromosome)
+            # enhanced_list.append(mutated_chromosome)
             
-            # selection of survivors for next generation
+            # # selection of survivors for next generation
         
         survivors, best_in_gen = next_gen_selection(winners_list, enhanced_list)
         
@@ -1376,7 +1428,10 @@ def main4():
             stagnation += 1
             
         if stagnation > 10:
-            break
+            elapsed = time.time() - start_time
+            converged_at = elapsed
+        else:
+            converged_at = 0
         
         #CHECK IF AMR ASSIGNMENT IS BETTER OR WORSE
         
@@ -1397,14 +1452,16 @@ def main4():
     
     
     xpoints = [x for x in range(1, t+ 1)]
-    # plt.plot(xpoints, ypoints,  color= 'b')
+    
+    if display_convergence:
+        plt.plot(xpoints, ypoints,  color= 'b')
     
     # Record the end time
     end_time = time.time()
     processing_time = end_time - start_time
     
-    
-    # get_file(best_chromosome, processing_time)
+    if create_txt_file:
+        get_file(best_chromosome, processing_time, converged_at)
     
     
     # print(f'best Cmax = {ypoints[N-1]}')
@@ -1415,24 +1472,31 @@ def main4():
     print(f'machine sequence: {best_chromosome.machine_sequence}\n ptime sequence: {best_chromosome.ptime_sequence}\n Cmax: {best_chromosome.Cmax}')
 
 
-    # CHANGE DIRECTORY FOR SAVING FIGURE
-    # timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    # filename = f'E:\\Python\\JobShopGA\\Results\\la05\\ganttcharr{timestamp}.png'
+
     PlotGanttChar_with_amr(best_chromosome)
-    # plt.savefig(filename)
+    
+    
+    if display_schedule:
+        plt.show()
     
     machine_seq_amrs, ptime_seq_amrs = get_sequences_in_amr(best_chromosome.amr_list)
     print(machine_seq_amrs,'\n',ptime_seq_amrs)   
-    create_amr_json(machine_seq_amrs, ptime_seq_amrs, 'amr_data.json')
+    
+    if update_json_file:
+        create_amr_json(machine_seq_amrs, ptime_seq_amrs, 'amr_data.json')
 
-    plt.show()
+    # plt.show()
     
     print('\n')
 
+'''
+For testing with multiple runs
+'''
 def run_tests():
     runs = 1
     for _ in range(runs):
-        main4()
+        main2()
         
+
 if __name__ == '__main__':
-    main4()
+    run_tests()

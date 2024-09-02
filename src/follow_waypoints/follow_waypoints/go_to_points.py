@@ -117,8 +117,8 @@ def manage_threads(robot_namespaces, sequences, ptimes, executor):
     for thread in threads:
         thread.join()
 
-    # for navigator in navigators:
-        # navigator.shutdown()
+    for navigator in navigators:
+        navigator.shutdown()
 
 def start_execution(sequences, ptimes):
     rclpy.init()
@@ -128,10 +128,10 @@ def start_execution(sequences, ptimes):
     # Use a single MultiThreadedExecutor
     executor = MultiThreadedExecutor()
 
-    # Manage threads based on the namespaces
+    
     manage_threads(robot_namespaces, sequences, ptimes, executor)
 
-    # rclpy.shutdown()
+    rclpy.shutdown()
 
 def on_json_update(data):
     print("JSON file updated with new values:")
