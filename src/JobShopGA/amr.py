@@ -9,3 +9,5 @@ class AMR:
         self.job_completion_time = 0
         self.machine_sequence = []
         self.ptime_sequence  = []
+        self.travel_time = 0
+        self.velocity = 1 # METER/SECOND
