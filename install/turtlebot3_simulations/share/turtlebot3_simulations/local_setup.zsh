@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/build/turtlebot3_simulations/ament_cmake_environment_hooks/local_setup.zsh

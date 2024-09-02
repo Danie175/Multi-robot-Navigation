@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/src/nav2_bringup/launch/navigation_launch.py

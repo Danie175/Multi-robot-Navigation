@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/build/turtlebot3_gazebo/ament_cmake_core/turtlebot3_gazeboConfig-version.cmake

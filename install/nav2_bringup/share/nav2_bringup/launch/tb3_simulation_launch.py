@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/src/nav2_bringup/launch/tb3_simulation_launch.py

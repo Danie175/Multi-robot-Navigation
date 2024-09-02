@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/src/nav2_bringup/launch/rviz_launch.py

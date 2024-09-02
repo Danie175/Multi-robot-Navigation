@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/build/nav2_bringup/ament_cmake_environment_hooks/local_setup.bash

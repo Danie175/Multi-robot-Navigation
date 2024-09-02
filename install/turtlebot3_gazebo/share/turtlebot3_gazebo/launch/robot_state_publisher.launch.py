@@ -1,1 +1,0 @@
-/home/daniel/Multi-robot-Navigation/src/turtlebot3_gazebo/launch/robot_state_publisher.launch.py
